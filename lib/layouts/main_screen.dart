@@ -26,7 +26,12 @@ class _MainScreenState extends State<MainScreen> {
   // }
 
   void onGotoLogin() {
-    Navigator.push(context, SlideRightRoute(page: const LoginScreen()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const LoginScreen(),
+      ),
+    );
   }
 
   void onGotoDashboard() {
@@ -51,14 +56,8 @@ class _MainScreenState extends State<MainScreen> {
       return Container(
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                //
-              },
-            ),
             IconButton(
               icon: const Icon(Icons.person),
               onPressed: onGotoLogin,
