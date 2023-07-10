@@ -64,12 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return LayoutBuilder(builder: (context, constraints) {
       if (constraints.maxWidth < 600) {
         // Mobile layout
-        return Column(
+        return const Column(
           children: [
-            Container(
-              // color: Colors.green,
-              child: mainScreen(),
-            ),
+            MainScreen(),
           ],
         );
       } else {
@@ -83,12 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: null,
               ),
             ),
-            Expanded(
+            const Expanded(
               flex: 12,
-              child: Container(
-                // color: Colors.green,
-                child: mainScreen(),
-              ),
+              child: MainScreen(),
             ),
             Expanded(
               flex: 12,
@@ -104,83 +98,141 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class mainScreen extends StatelessWidget {
-  const mainScreen({Key? key}) : super(key: key);
+class MainScreen extends StatelessWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final rowHeightTop = screenHeight * 0.2; // Adjust the percentage as needed
-    final rowHeightMiddle =
-        screenHeight * 0.6; // Adjust the percentage as needed
-    final rowHeightBootom =
-        screenHeight * 0.2; // Adjust the percentage as needed
+    // final screenHeight = MediaQuery.of(context).size.height;
+    // final rowHeightTop = screenHeight * 0.2; // Adjust the percentage as needed
+    // final rowHeightMiddle =
+    //     screenHeight * 0.6; // Adjust the percentage as needed
+    // final rowHeightBootom =
+    //     screenHeight * 0.2; // Adjust the percentage as needed
 
-    return Container(
-      // Your login screen UI implementation goes here
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: rowHeightTop,
-                  // color: Colors.red,
-                  child: const Center(
-                    child: Text(
-                      'header',
-                      style: TextStyle(
-                        decoration: TextDecoration.none,
-                        decorationColor: Colors.blue,
-                        decorationStyle: TextDecorationStyle.double,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
+    Widget appBar() {
+      return Container(
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const RotatedBox(
+              quarterTurns: 4,
+              child: Text("icon"),
+            ),
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(13)),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.blue,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Color(0xfff8f8f8),
+                        blurRadius: 10,
+                        spreadRadius: 10),
+                  ],
                 ),
+                child: const Text("icon user"),
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: rowHeightMiddle,
-                  // color: Colors.blue,
-                  child: LoginScreen(),
-                ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            // Header (20% of the screen height)
+            Expanded(
+              flex: 1,
+              child: appBar(),
+            ),
+
+            // Body (60% of the screen height)
+            const Expanded(
+              flex: 6,
+              child: SingleChildScrollView(
+                child: LoginScreen(),
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: rowHeightBootom,
-                  // color: Colors.green,
-                  child: const Center(
-                    child: Text(
-                      'bottom',
-                      style: TextStyle(
-                        decoration: TextDecoration.none,
-                        decorationColor: Colors.blue,
-                        decorationStyle: TextDecorationStyle.double,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
+            ),
+
+            // Footer (20% of the screen height)
+            const Expanded(
+              flex: 1,
+              child: Center(
+                child: Text('Footer'),
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
+
+    // return Column(
+    //   children: [
+    //     Row(
+    //       children: [
+    //         Expanded(
+    //           child: Container(
+    //             height: rowHeightTop,
+    //             // color: Colors.red,
+    //             child: const Center(
+    //               child: Text(
+    //                 'header',
+    //                 style: TextStyle(
+    //                   decoration: TextDecoration.none,
+    //                   decorationColor: Colors.blue,
+    //                   decorationStyle: TextDecorationStyle.double,
+    //                   fontSize: 24,
+    //                   fontWeight: FontWeight.bold,
+    //                   fontStyle: FontStyle.italic,
+    //                   color: Colors.black,
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     Row(
+    //       children: [
+    //         Expanded(
+    //           child: Container(
+    //             height: rowHeightMiddle,
+    //             // color: Colors.blue,
+    //             child: LoginScreen(),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     Row(
+    //       children: [
+    //         Expanded(
+    //           child: Container(
+    //             height: rowHeightBootom,
+    //             // color: Colors.green,
+    //             child: const Center(
+    //               child: Text(
+    //                 'bottom',
+    //                 style: TextStyle(
+    //                   decoration: TextDecoration.none,
+    //                   decorationColor: Colors.blue,
+    //                   decorationStyle: TextDecorationStyle.double,
+    //                   fontSize: 24,
+    //                   fontWeight: FontWeight.bold,
+    //                   fontStyle: FontStyle.italic,
+    //                   color: Colors.black,
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ],
+    // );
   }
 }
