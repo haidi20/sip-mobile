@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sip/modules/auth/loginScreen.dart';
+import 'package:sip/custome_route.dart';
+import 'package:sip/modules/auth/login_screen.dart';
+import 'package:sip/modules/dashboard/dashboard_screen.dart';
+import 'package:sip/route.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,59 +17,37 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: Routes.getRoute(),
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == 'dashboard') {
+          return MyHomePage<bool>(
+              builder: (BuildContext context) => const Dashboard());
+        } else {
+          return MyHomePage<bool>(
+              builder: (BuildContext context) => const LoginScreen());
+        }
+      },
+      initialRoute: "dashboard",
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class MyHomePage<T> extends MaterialPageRoute<T> {
+  MyHomePage({required WidgetBuilder builder, RouteSettings? settings})
+      : super(builder: builder, settings: settings);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  // functions
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     return LayoutBuilder(builder: (context, constraints) {
       if (constraints.maxWidth < 600) {
         // Mobile layout
-        return const Column(
+        return Column(
           children: [
-            MainScreen(),
+            MainScreen(
+              child: child,
+            ),
           ],
         );
       } else {
@@ -80,9 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: null,
               ),
             ),
-            const Expanded(
+            Expanded(
               flex: 12,
-              child: MainScreen(),
+              child: MainScreen(
+                child: child,
+              ),
             ),
             Expanded(
               flex: 12,
@@ -99,7 +82,9 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key, required this.child});
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +126,6 @@ class MainScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -152,87 +136,21 @@ class MainScreen extends StatelessWidget {
             ),
 
             // Body (60% of the screen height)
-            const Expanded(
+            Expanded(
               flex: 6,
-              child: SingleChildScrollView(
-                child: LoginScreen(),
-              ),
+              child: child,
             ),
 
             // Footer (20% of the screen height)
             const Expanded(
               flex: 1,
               child: Center(
-                child: Text('Footer'),
+                child: Text('Menu'),
               ),
             ),
           ],
         ),
       ),
     );
-
-    // return Column(
-    //   children: [
-    //     Row(
-    //       children: [
-    //         Expanded(
-    //           child: Container(
-    //             height: rowHeightTop,
-    //             // color: Colors.red,
-    //             child: const Center(
-    //               child: Text(
-    //                 'header',
-    //                 style: TextStyle(
-    //                   decoration: TextDecoration.none,
-    //                   decorationColor: Colors.blue,
-    //                   decorationStyle: TextDecorationStyle.double,
-    //                   fontSize: 24,
-    //                   fontWeight: FontWeight.bold,
-    //                   fontStyle: FontStyle.italic,
-    //                   color: Colors.black,
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //     Row(
-    //       children: [
-    //         Expanded(
-    //           child: Container(
-    //             height: rowHeightMiddle,
-    //             // color: Colors.blue,
-    //             child: LoginScreen(),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //     Row(
-    //       children: [
-    //         Expanded(
-    //           child: Container(
-    //             height: rowHeightBootom,
-    //             // color: Colors.green,
-    //             child: const Center(
-    //               child: Text(
-    //                 'bottom',
-    //                 style: TextStyle(
-    //                   decoration: TextDecoration.none,
-    //                   decorationColor: Colors.blue,
-    //                   decorationStyle: TextDecorationStyle.double,
-    //                   fontSize: 24,
-    //                   fontWeight: FontWeight.bold,
-    //                   fontStyle: FontStyle.italic,
-    //                   color: Colors.black,
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ],
-    // );
   }
 }
