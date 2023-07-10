@@ -1,0 +1,162 @@
+import 'package:flutter/material.dart';
+import 'package:sip/custome_route.dart';
+import 'package:sip/layouts/not_found_screen.dart';
+import 'package:sip/modules/auth/login_screen.dart';
+import 'package:sip/modules/dashboard/dashboard_screen.dart';
+import 'package:sip/route.dart';
+import 'package:sip/widgets/slide_right_route.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
+      ),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: Routes.getRoute(),
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == 'dashboard') {
+          return MyHomePage<bool>(
+              builder: (BuildContext context) => const DashboardScreen());
+        } else if (settings.name == 'login') {
+          return MyHomePage<bool>(
+              builder: (BuildContext context) => const LoginScreen());
+        } else {
+          return MyHomePage<bool>(
+              builder: (BuildContext context) => const NotFoundScreen());
+        }
+      },
+      initialRoute: "dashboard",
+    );
+  }
+}
+
+class MyHomePage<T> extends MaterialPageRoute<T> {
+  MyHomePage({required WidgetBuilder builder, RouteSettings? settings})
+      : super(builder: builder, settings: settings);
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth < 600) {
+        // Mobile layout
+        return Column(
+          children: [
+            MainScreen(
+              context: context,
+              child: child,
+            ),
+          ],
+        );
+      } else {
+        // Larger screen layout
+        return Row(
+          children: [
+            Expanded(
+              flex: 12,
+              child: Container(
+                // color: Colors.blue,
+                child: null,
+              ),
+            ),
+            Expanded(
+              flex: 12,
+              child: MainScreen(
+                context: context,
+                child: child,
+              ),
+            ),
+            Expanded(
+              flex: 12,
+              child: Container(
+                // color: Colors.blue,
+                child: null,
+              ),
+            ),
+          ],
+        );
+      }
+    });
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({super.key, required this.child, required this.context});
+
+  final BuildContext context;
+  final Widget child;
+
+  void onGotoLogin() {
+    Navigator.push(context, SlideRightRoute(page: const LoginScreen()));
+  }
+
+  void onGotoDashboard() {
+    Navigator.push(context, SlideRightRoute(page: const DashboardScreen()));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget appBar() {
+      return Container(
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: onGotoLogin,
+            ),
+            IconButton(
+              icon: const Icon(Icons.person),
+              onPressed: onGotoDashboard,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            // Header (20% of the screen height)
+            Expanded(
+              flex: 1,
+              child: appBar(),
+            ),
+
+            // Body (60% of the screen height)
+            Expanded(
+              flex: 6,
+              child: child,
+            ),
+
+            // Footer (20% of the screen height)
+            const Expanded(
+              flex: 1,
+              child: Center(
+                child: Text('Menu'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
