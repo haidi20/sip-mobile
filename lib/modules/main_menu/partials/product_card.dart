@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  // final String title;
+  final String imgUrl;
 
-  const ProductCard({super.key});
+  const ProductCard({super.key, required this.imgUrl});
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl =
-        "https://images.unsplash.com/photo-1587334207407-deb137a955ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80";
-
     return Padding(
       padding: const EdgeInsets.only(right: 30, bottom: 10),
       child: Container(
@@ -23,7 +20,7 @@ class ProductCard extends StatelessWidget {
                     offset: const Offset(3, 1))
               ]),
           child: Image.network(
-            imageUrl,
+            imgUrl,
             width: 100, // specify the width
             height: 150, // specify the height
             fit: BoxFit.cover, // how to scale the image

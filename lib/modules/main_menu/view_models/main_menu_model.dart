@@ -1,12 +1,21 @@
-import 'package:sip/stores/main_menu_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:sip/blocs/product_bloc.dart';
+import 'package:sip/models/product_model.dart';
 
-class MainMenuModdel {
-  final MainMenuBloc mainMenuBloc = MainMenuBloc();
+class MainMenuModel {
+  final ProductBloc productBloc = ProductBloc();
 
-  Stream<String> get welcomeStream => mainMenuBloc.welcomeStream;
-  String get currentWelcome => mainMenuBloc.currentWelcome;
+  Stream<List<ProductModel>> get productStream => productBloc.productStream;
+  List<ProductModel> get getData => productBloc.getData;
+  ProductModel get getForm => productBloc.getForm;
+
+  final String title = "Etalase Pangan";
 
   void onChangeWelcome(value) {
-    mainMenuBloc.onChangeWelcome(value);
+    debugPrint(value);
+  }
+
+  void dispose() {
+    productBloc.dispose();
   }
 }
