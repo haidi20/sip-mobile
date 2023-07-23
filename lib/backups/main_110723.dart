@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sip/custome_route.dart';
 import 'package:sip/layouts/not_found_screen.dart';
 import 'package:sip/modules/auth/login_screen.dart';
-import 'package:sip/modules/dashboard/dashboard_screen.dart';
+import 'package:sip/modules/main_menu/screens/main_menu_screen.dart';
 import 'package:sip/route.dart';
 import 'package:sip/widgets/slide_right_route.dart';
 
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == 'dashboard') {
           return MyHomePage<bool>(
-              builder: (BuildContext context) => const DashboardScreen());
+              builder: (BuildContext context) => const MainMenuScreen());
         } else if (settings.name == 'login') {
           return MyHomePage<bool>(
               builder: (BuildContext context) => const LoginScreen());
@@ -107,7 +106,7 @@ class MainScreen extends StatelessWidget {
   }
 
   void onGotoDashboard() {
-    Navigator.push(context, SlideRightRoute(page: const DashboardScreen()));
+    Navigator.push(context, SlideRightRoute(page: const MainMenuScreen()));
   }
 
   @override
