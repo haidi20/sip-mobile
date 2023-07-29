@@ -5,8 +5,8 @@ import 'package:sip/models/product_model.dart';
 class MainMenuController {
   final ProductBloc productBloc = ProductBloc();
 
-  Stream<List<ProductModel>> get productStream => productBloc.productStream;
-  List<ProductModel> get getData => productBloc.getData;
+  Stream<List<ProductModel>> get productDataStream => productBloc.dataStream;
+  List<ProductModel> get productGetData => productBloc.getData;
   ProductModel get getForm => productBloc.getForm;
 
   final String title = "Etalase Pangan";

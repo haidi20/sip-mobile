@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Filter extends StatelessWidget {
-  const Filter({super.key});
+class SearchInput extends StatelessWidget {
+  const SearchInput({super.key});
 
   @override
   Widget build(BuildContext context) {

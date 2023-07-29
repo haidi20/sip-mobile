@@ -17,6 +17,6 @@ app.use(bodyParser.json());
 // Use the v1 route
 app.use('/api/v1', v1Route);
 
-server.listen(8001, () => {
-    console.log('listening on *:8001');
+server.listen(3001, () => {
+    console.log('listening on *:3001');
 });

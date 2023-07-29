@@ -13,22 +13,21 @@ class ProductBloc {
     // ProductModel(id: 2, name: "Buah", imgUrl: ),
   ];
   final ProductModel _form = ProductModel(id: 1, name: "sayuran", imgUrl: "");
+  final VmLoading _loading = VmLoading();
 
-  final _productController = BehaviorSubject<List<ProductModel>>();
+  final _dataStream = BehaviorSubject<List<ProductModel>>();
 
-  Stream<List<ProductModel>> get productStream => _productController.stream;
+  Stream<List<ProductModel>> get dataStream => _dataStream.stream;
   List<ProductModel> get getData => _data;
   ProductModel get getForm => _form;
 
-  ProductBloc() {
-    for (int i = 0; i < _data.length; i++) {
-      _data[i].imgUrl = imgUrl;
-    }
-
-    _productController.sink.add(_data);
-  }
-
   void dispose() {
-    _productController.close();
+    _dataStream.close();
   }
+}
+
+class VmLoading {
+  final bool data = false;
+
+  // VmLoading({required data});
 }

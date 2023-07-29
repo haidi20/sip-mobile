@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sip/layouts/left_menu.dart';
+import 'package:sip/constants.dart';
+import 'package:sip/layouts/right_menu.dart';
 import 'package:sip/layouts/master.dart';
 import 'package:sip/modules/auth/login_screen.dart';
 import 'package:sip/modules/main_menu/views/main_menu_screen.dart';
@@ -71,6 +72,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
             Builder(
               builder: (context) {
                 return IconButton(
+                  padding: const EdgeInsets.only(right: paddingRightGenerale),
                   icon: const Icon(
                     Icons.menu,
                     color: Colors.blueAccent,
@@ -84,7 +86,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
           ],
           // title: const Text('Your App Name'),
         ),
-        endDrawer: const LeftMenu(),
+        endDrawer: const RightMenu(),
         body: SafeArea(
           child: screens[_selectedNavbar],
         ),

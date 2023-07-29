@@ -3,7 +3,7 @@ import 'package:sip/blocs/product_bloc.dart';
 import 'package:sip/constants.dart';
 import 'package:sip/models/product_model.dart';
 import 'package:sip/modules/main_menu/controllers/main_menu_controller.dart';
-import 'package:sip/modules/main_menu/views/filter.dart';
+import 'package:sip/modules/main_menu/views/search_input.dart';
 import 'package:sip/modules/main_menu/views/product_card.dart';
 
 class MainMenuScreen extends StatefulWidget {
@@ -42,7 +42,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Filter(),
+              const SearchInput(),
               const SizedBox(
                 height: 15,
               ),
@@ -57,7 +57,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: StreamBuilder<List<ProductModel>>(
-                  stream: mainMenuController.productStream,
+                  stream: mainMenuController.productDataStream,
+                  initialData: mainMenuController.productGetData,
                   builder: (BuildContext context,
                       AsyncSnapshot<List<ProductModel>> snapshot) {
                     if (snapshot.hasData) {

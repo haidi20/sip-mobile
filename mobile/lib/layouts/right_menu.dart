@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 
-class LeftMenu extends StatelessWidget {
-  const LeftMenu({super.key});
+class RightMenu extends StatelessWidget {
+  const RightMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       elevation: 16.0,
       child: ListView(
-        children: [
+        children: <Widget>[
           Container(
-            alignment: Alignment.centerLeft,
-            child: IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                Navigator.pop(context); // Close the drawer
-              },
+            height: 100,
+            decoration: const BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           ListTile(
