@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sip/layouts/left_menu.dart';
 import 'package:sip/layouts/master.dart';
 import 'package:sip/modules/auth/login_screen.dart';
-import 'package:sip/modules/main_menu/screens/main_menu_screen.dart';
+import 'package:sip/modules/main_menu/views/main_menu_screen.dart';
 import 'package:sip/modules/profile/profile_screen.dart';
 import 'package:sip/widgets/slide_right_route.dart';
 
@@ -60,15 +61,30 @@ class _DefaultScreenState extends State<DefaultScreen> {
       ),
     ];
 
-    Widget appBar() {
-      return Container(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: null,
-      );
-    }
-
     return Master(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0, // Set elevation to 0 to remove shadow
+          backgroundColor:
+              Colors.transparent, // Set transparent background color
+          actions: [
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.blueAccent,
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                );
+              },
+            ),
+          ],
+          // title: const Text('Your App Name'),
+        ),
+        endDrawer: const LeftMenu(),
         body: SafeArea(
           child: screens[_selectedNavbar],
         ),

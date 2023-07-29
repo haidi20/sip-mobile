@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sip/blocs/product_bloc.dart';
+import 'package:sip/constants.dart';
 import 'package:sip/models/product_model.dart';
-import 'package:sip/modules/main_menu/view_models/main_menu_model.dart';
-import 'package:sip/modules/main_menu/partials/product_card.dart';
+import 'package:sip/modules/main_menu/controllers/main_menu_controller.dart';
+import 'package:sip/modules/main_menu/views/filter.dart';
+import 'package:sip/modules/main_menu/views/product_card.dart';
 
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({super.key});
@@ -12,7 +14,7 @@ class MainMenuScreen extends StatefulWidget {
 }
 
 class _MainMenuScreenState extends State<MainMenuScreen> {
-  MainMenuModel mainMenuModel = MainMenuModel();
+  MainMenuController mainMenuController = MainMenuController();
 
   @override
   void initState() {
@@ -21,7 +23,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   @override
   void dispose() {
-    mainMenuModel.dispose();
+    mainMenuController.dispose();
     super.dispose();
   }
 
@@ -33,28 +35,19 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Padding(
-          padding:
-              const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
+          padding: const EdgeInsets.only(
+            left: paddingLeftGenerale,
+            right: paddingRightGenerale,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: "Search",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
-                ),
-                onChanged: (text) => {
-                  debugPrint(text),
-                  mainMenuModel.onChangeWelcome(text),
-                },
-              ),
+              const Filter(),
               const SizedBox(
                 height: 15,
               ),
               Text(
-                mainMenuModel.title,
+                mainMenuController.title,
                 style: const TextStyle(
                     fontSize: 35, fontWeight: FontWeight.bold, height: 1.5),
               ),
@@ -64,22 +57,31 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: StreamBuilder<List<ProductModel>>(
-                  stream: mainMenuModel.productStream,
-                  initialData: [],
+                  stream: mainMenuController.productStream,
                   builder: (BuildContext context,
                       AsyncSnapshot<List<ProductModel>> snapshot) {
                     if (snapshot.hasData) {
-                      List<ProductModel> products = snapshot.data!;
-                      return Row(
-                        children: products.map(
-                          (ProductModel product) {
-                            return ProductCard(imgUrl: product.imgUrl);
-                          },
-                        ).toList(),
-                      );
+                      if (snapshot.data!.isNotEmpty) {
+                        List<ProductModel> products = snapshot.data!;
+                        return Row(
+                          children: products.map(
+                            (ProductModel product) {
+                              return GestureDetector(
+                                onTap: () {
+                                  debugPrint('You tapped on ${product.name}');
+                                },
+                                child: ProductCard(imgUrl: product.imgUrl),
+                              );
+                            },
+                          ).toList(),
+                        );
+                      } else {
+                        return const Text('Tidak ada data');
+                      }
                     } else {
                       return const Text(
-                          'No Data'); // handle the case when there's no data
+                        'Tidak ada data',
+                      ); // handle the case when there's no data
                     }
                   },
                 ),

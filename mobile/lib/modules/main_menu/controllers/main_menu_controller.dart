@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sip/blocs/product_bloc.dart';
 import 'package:sip/models/product_model.dart';
 
-class MainMenuModel {
+class MainMenuController {
   final ProductBloc productBloc = ProductBloc();
 
   Stream<List<ProductModel>> get productStream => productBloc.productStream;

@@ -37,9 +37,6 @@ class MainApp extends StatelessWidget {
         if (settings.name == 'main') {
           return CustomRoute<bool>(
               builder: (BuildContext context) => const DefaultScreen());
-        } else if (settings.name == 'login') {
-          return CustomRoute<bool>(
-              builder: (BuildContext context) => const LoginScreen());
         } else {
           return CustomRoute<bool>(
               builder: (BuildContext context) => const NotFoundScreen());
