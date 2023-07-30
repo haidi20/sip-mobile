@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sip/models/product.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,7 +21,7 @@ class ProductRepository {
 
         products = data.map((product) => Product.fromJson(product)).toList();
 
-        debugPrint("data length = ${products.length.toString()} ");
+        // debugPrint("data length = ${products.length.toString()} ");
       }
 
       return products;
