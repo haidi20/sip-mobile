@@ -3,8 +3,9 @@ import 'package:image_network/image_network.dart';
 
 class ProductCard extends StatefulWidget {
   final String imgUrl;
+  final String? name;
 
-  const ProductCard({super.key, required this.imgUrl});
+  const ProductCard({super.key, required this.imgUrl, this.name});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -46,10 +47,8 @@ class _ProductCardState extends State<ProductCard> {
             ]),
         child: Stack(
           children: [
-            if (isLoading)
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
+            Text(widget.name ?? "no name"),
+            const SizedBox(height: 50), // Add spacing between name and image
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: ImageNetwork(

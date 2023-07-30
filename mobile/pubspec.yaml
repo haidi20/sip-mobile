@@ -41,6 +41,7 @@ dependencies:
   image_network: ^2.5.4+1
   flutter_dotenv: ^5.0.0
   http: ^1.1.0
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -66,7 +67,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - .env
+    - .env.devel
+    - .env.production
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -1,23 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sip/blocs/products/products_bloc.dart';
 import 'package:sip/constants.dart';
 import 'package:sip/layouts/right_menu.dart';
 import 'package:sip/layouts/master.dart';
 import 'package:sip/modules/auth/login_screen.dart';
-import 'package:sip/modules/main_menu/views/main_menu_screen.dart';
-import 'package:sip/modules/profile/profile_screen.dart';
+import 'package:sip/modules/home/view/home_screen.dart';
+import 'package:sip/modules/profile/view/profile_screen.dart';
 import 'package:sip/widgets/slide_right_route.dart';
 
-class DefaultScreen extends StatefulWidget {
-  const DefaultScreen({super.key});
+class MainMenu extends StatefulWidget {
+  const MainMenu({super.key});
 
   @override
-  State<DefaultScreen> createState() => _DefaultScreenState();
+  State<MainMenu> createState() => _MainMenuState();
 }
 
-class _DefaultScreenState extends State<DefaultScreen> {
+class _MainMenuState extends State<MainMenu> {
+  ProductBloc productBloc = ProductBloc();
+
+  @override
+  void initState() {
+    debugPrint("initial data");
+
+    BlocProvider.of<ProductBloc>(context).add(
+      ProductFectData(),
+    );
+
+    super.initState();
+  }
+
   int _selectedNavbar = 0;
   final screens = [
-    const MainMenuScreen(),
+    const HomeScreen(),
     const ProfileScreen(),
   ];
 
@@ -31,13 +46,19 @@ class _DefaultScreenState extends State<DefaultScreen> {
   }
 
   void onGotoDashboard() {
-    Navigator.push(context, SlideRightRoute(page: const MainMenuScreen()));
+    Navigator.push(context, SlideRightRoute(page: const HomeScreen()));
   }
 
   void _changeSelectedNavBar(int index) {
     setState(() {
       _selectedNavbar = index;
     });
+  }
+
+  @override
+  void dispose() {
+    productBloc.close();
+    super.dispose();
   }
 
   @override
@@ -88,7 +109,14 @@ class _DefaultScreenState extends State<DefaultScreen> {
         ),
         endDrawer: const RightMenu(),
         body: SafeArea(
-          child: screens[_selectedNavbar],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: screens[_selectedNavbar],
+              ),
+            ],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: items,
