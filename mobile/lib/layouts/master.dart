@@ -1,45 +1,54 @@
 import 'package:flutter/material.dart';
 
 class Master extends StatelessWidget {
-  const Master({super.key, required this.child});
+  const Master({Key? key, required this.child}) : super(key: key);
 
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < 600) {
-        // Mobile layout
-        // return Center(
-        //   widthFactor: 0.5,
-        //   child: child,
-        // );
-        return child;
-      } else {
-        // Larger screen layout
-        return Row(
-          children: [
-            Expanded(
-              flex: 12,
-              child: Container(
-                // color: Colors.blue,
-                child: null,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 600) {
+          // Mobile layout
+          return child;
+        } else {
+          // Larger screen layout
+          return LargeScreenLayout(child: child);
+        }
+      },
+    );
+  }
+}
+
+class LargeScreenLayout extends StatelessWidget {
+  const LargeScreenLayout({Key? key, required this.child}) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 40,
+          child: Container(
+              // Add any additional widgets or effects you want for the left part
+              // color: Colors.blue,
               ),
-            ),
-            Expanded(
-              flex: 12,
-              child: child,
-            ),
-            Expanded(
-              flex: 12,
-              child: Container(
-                // color: Colors.blue,
-                child: null,
+        ),
+        Expanded(
+          flex: 40,
+          child: child,
+        ),
+        Expanded(
+          flex: 40,
+          child: Container(
+              // Add any additional widgets or effects you want for the right part
+              // color: Colors.blue,
               ),
-            ),
-          ],
-        );
-      }
-    });
+        ),
+      ],
+    );
   }
 }

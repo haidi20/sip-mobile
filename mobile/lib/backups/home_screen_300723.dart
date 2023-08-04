@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sip/blocs/products/products_bloc.dart';
 import 'package:sip/constants.dart';
 import 'package:sip/models/product.dart';
-import 'package:sip/modules/home/service/home_service.dart';
-import 'package:sip/modules/home/view/product_card.dart';
-import 'package:sip/modules/main_menu/view/search_input.dart';
+import 'package:sip/modules/home/services/home_service.dart';
+import 'package:sip/modules/home/widgets/product_card.dart';
+import 'package:sip/modules/main_menu/widgets/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

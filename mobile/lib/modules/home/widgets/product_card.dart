@@ -1,34 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:image_network/image_network.dart';
 
 class ProductCard extends StatefulWidget {
   final String imgUrl;
   final String name;
+  final String price;
 
-  const ProductCard({super.key, required this.imgUrl, this.name = ""});
+  const ProductCard({
+    super.key,
+    required this.imgUrl,
+    this.name = "",
+    this.price = "",
+  });
 
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
-  bool isLoading = false;
-
   @override
   void initState() {
     super.initState();
-
-    _loadImage();
   }
 
-  Future<void> _loadImage() async {
-    await Future.delayed(
-      const Duration(minutes: 1),
-    ); // Simulate image loading delay
-
-    setState(() {
-      isLoading = false;
-    });
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -58,12 +54,24 @@ class _ProductCardState extends State<ProductCard> {
           ),
           child: Align(
             alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: Text(
-                widget.name,
-                style: const TextStyle(color: Colors.white, fontSize: 15),
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text(
+                    widget.name,
+                    style: const TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text(
+                    widget.price, // Replace this with the actual price value
+                    style: const TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

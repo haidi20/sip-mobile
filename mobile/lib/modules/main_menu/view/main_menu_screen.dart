@@ -5,23 +5,23 @@ import 'package:sip/constants.dart';
 import 'package:sip/layouts/right_menu.dart';
 import 'package:sip/layouts/master.dart';
 import 'package:sip/modules/auth/login_screen.dart';
-import 'package:sip/modules/home/view/home_screen.dart';
-import 'package:sip/modules/profile/view/profile_screen.dart';
+import 'package:sip/modules/home/screens/home_screen.dart';
+import 'package:sip/modules/profile/screens/profile_screen.dart';
 import 'package:sip/widgets/slide_right_route.dart';
 
-class MainMenu extends StatefulWidget {
-  const MainMenu({super.key});
+class MainMenuScreen extends StatefulWidget {
+  const MainMenuScreen({super.key});
 
   @override
-  State<MainMenu> createState() => _MainMenuState();
+  State<MainMenuScreen> createState() => _MainMenuScreenState();
 }
 
-class _MainMenuState extends State<MainMenu> {
+class _MainMenuScreenState extends State<MainMenuScreen> {
   ProductBloc productBloc = ProductBloc();
 
   @override
   void initState() {
-    debugPrint("initial data");
+    // debugPrint("initial data");
 
     BlocProvider.of<ProductBloc>(context).add(
       ProductFectData(),
@@ -40,7 +40,7 @@ class _MainMenuState extends State<MainMenu> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => const LoginScreen(),
+        builder: (BuildContext context) => LoginScreen(),
       ),
     );
   }
@@ -96,7 +96,7 @@ class _MainMenuState extends State<MainMenu> {
                   padding: const EdgeInsets.only(right: paddingRightGenerale),
                   icon: const Icon(
                     Icons.menu,
-                    color: Colors.blueAccent,
+                    color: Colors.black,
                   ),
                   onPressed: () {
                     Scaffold.of(context).openEndDrawer();
@@ -107,7 +107,7 @@ class _MainMenuState extends State<MainMenu> {
           ],
           // title: const Text('Your App Name'),
         ),
-        endDrawer: const RightMenu(),
+        endDrawer: RightMenu(),
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

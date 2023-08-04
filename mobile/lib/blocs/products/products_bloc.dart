@@ -7,7 +7,7 @@ import 'package:equatable/equatable.dart';
 part 'products_event.dart';
 part 'products_state.dart';
 
-class ProductBloc extends Bloc<ProdctEvent, ProductState> {
+class ProductBloc extends Bloc<ProductEvent, ProductState> {
   late final StreamSubscription<ProductState> productStateSubscription;
   final ProductRepository _productRepository;
 

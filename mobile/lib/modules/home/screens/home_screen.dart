@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sip/blocs/blocs.dart';
 import 'package:sip/constants.dart';
 import 'package:sip/models/product.dart';
-import 'package:sip/modules/home/service/home_service.dart';
-import 'package:sip/modules/home/view/product_card.dart';
-import 'package:sip/modules/main_menu/view/search_input.dart';
+import 'package:sip/modules/home/services/home_service.dart';
+import 'package:sip/modules/home/widgets/product_card.dart';
+import 'package:sip/modules/main_menu/widgets/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -44,10 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
             left: paddingLeftGenerale,
             right: paddingRightGenerale,
           ),
-          child: Text(
-            homeService.title,
-            style: const TextStyle(
-                fontSize: 35, fontWeight: FontWeight.bold, height: 1.5),
+          child: Center(
+            child: Text(
+              homeService.title,
+              style: const TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                height: 1.5,
+              ),
+            ),
           ),
         ),
         const SizedBox(
@@ -67,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     (Product product) {
                       return GestureDetector(
                         onTap: () {
-                          debugPrint('You tapped on ${product.name}');
+                          debugPrint('click ${product.name}');
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -75,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ProductCard(
                             imgUrl: product.imgUrl,
                             name: product.name,
+                            price: product.price,
                           ),
                         ),
                       );

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class RightMenu extends StatelessWidget {
-  const RightMenu({super.key});
+  RightMenu({super.key});
+
+  List<Map<String, String?>> listMenu = [
+    {
+      "name": 'Etalase Pangan',
+      "nameRoute": null,
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,26 +37,14 @@ class RightMenu extends StatelessWidget {
               ],
             ),
           ),
-          ListTile(
-            title: const Text('Etalase Pangan'),
-            onTap: () {
-              // Handle the click on 'Etalase Pangan'
-              Navigator.pop(context); // Close the drawer
-            },
-          ),
-          ListTile(
-            title: const Text('Laporan Harian Harga'),
-            onTap: () {
-              // Handle the click on 'Laporan Harian Harga'
-              Navigator.pop(context); // Close the drawer
-            },
-          ),
-          ListTile(
-            title: const Text('Ketersediaan Pangan'),
-            onTap: () {
-              // Handle the click on 'Ketersediaan Pangan'
-              Navigator.pop(context); // Close the drawer
-            },
+          ...listMenu.map(
+            (menu) => ListTile(
+              title: Text(menu['name']!),
+              onTap: () {
+                // Handle the click on 'Etalase Pangan'
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
           ),
         ],
       ),

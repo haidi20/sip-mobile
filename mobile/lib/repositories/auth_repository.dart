@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:sip/models/product.dart';
+import 'package:sip/blocs/auth/auth_bloc.dart';
+import 'package:sip/models/auth.dart';
+import 'package:sip/models/user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class ProductRepository {
-  Future<List<Product>?> fetchData() async {
-    List<Product> products = [];
+class AuthRepository {
+  Future<AuthState> login() async {
+    User user = User(name: "", roleId: 0);
+    AuthState result = AuthState(user: user);
+
     final String baseUrl = dotenv.env['BASE_URL'] ?? '';
 
     try {
@@ -14,7 +18,11 @@ class ProductRepository {
       if (response.statusCode == 200) {
         final responseData = response.data as Map<String, dynamic>;
         final VmResponse getResponse = VmResponse.fromJson(responseData);
-        products = getResponse.data;
+
+        if (getResponse.success) {
+          result = AuthState(
+              user: getResponse.data.user, token: getResponse.data.token);
+        }
 
         // debugPrint(products[0].price.toString());
       } else {
@@ -26,22 +34,20 @@ class ProductRepository {
       debugPrint("Exception: $e");
     }
 
-    return products;
+    return result;
   }
 }
 
 class VmResponse {
   bool success;
-  List<Product> data;
+  Auth data;
 
   VmResponse({required this.data, required this.success});
 
   factory VmResponse.fromJson(Map<String, dynamic> json) {
     return VmResponse(
       success: json['success'],
-      data: (json['data'] as List<dynamic>)
-          .map((item) => Product.fromJson(item))
-          .toList(),
+      data: Auth.fromJson(json['data']),
     );
   }
 }
