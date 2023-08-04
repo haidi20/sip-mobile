@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sip/blocs/auth/auth_bloc.dart';
 
 class RightMenu extends StatelessWidget {
   RightMenu({super.key});
@@ -7,7 +9,19 @@ class RightMenu extends StatelessWidget {
     {
       "name": 'Etalase Pangan',
       "nameRoute": null,
-    }
+    },
+    {
+      "name": 'Laporan Harian Harga',
+      "nameRoute": null,
+    },
+    {
+      "name": 'Ketersediaan Pangan',
+      "nameRoute": null,
+    },
+    {
+      "name": 'Keluar',
+      "nameRoute": "login",
+    },
   ];
 
   @override
@@ -41,8 +55,19 @@ class RightMenu extends StatelessWidget {
             (menu) => ListTile(
               title: Text(menu['name']!),
               onTap: () {
+                AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
                 // Handle the click on 'Etalase Pangan'
                 Navigator.pop(context); // Close the drawer
+
+                if (menu['nameRoute'] != null) {
+                  if (menu['nameRoute'] == 'login') {
+                    authBloc.add(
+                      AuthLogout(),
+                    );
+                  }
+
+                  Navigator.pushNamed(context, menu['nameRoute']!);
+                }
               },
             ),
           ),

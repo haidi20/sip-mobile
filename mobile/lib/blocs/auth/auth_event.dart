@@ -9,8 +9,13 @@ class AuthLogin extends AuthEvent {
   final String username;
   final String password;
 
-  AuthLogin(this.username, this.password);
+  AuthLogin({required this.username, required this.password});
 
   @override
   List<Object?> get props => [username, password];
+}
+
+class AuthLogout extends AuthEvent {
+  @override
+  List<Object?> get props => <Object?>[];
 }

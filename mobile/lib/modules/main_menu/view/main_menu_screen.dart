@@ -10,7 +10,7 @@ import 'package:sip/modules/profile/screens/profile_screen.dart';
 import 'package:sip/widgets/slide_right_route.dart';
 
 class MainMenuScreen extends StatefulWidget {
-  const MainMenuScreen({super.key});
+  MainMenuScreen({super.key});
 
   @override
   State<MainMenuScreen> createState() => _MainMenuScreenState();
@@ -32,7 +32,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   int _selectedNavbar = 0;
   final screens = [
-    const HomeScreen(),
+    HomeScreen(),
     const ProfileScreen(),
   ];
 
@@ -46,7 +46,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   }
 
   void onGotoDashboard() {
-    Navigator.push(context, SlideRightRoute(page: const HomeScreen()));
+    Navigator.push(context, SlideRightRoute(page: HomeScreen()));
   }
 
   void _changeSelectedNavBar(int index) {

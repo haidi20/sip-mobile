@@ -16,6 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   })  : _authRepository = AuthRepository(),
         super(AuthState.init()) {
     on<AuthLogin>(onLogin);
+    on<AuthLogout>(onLogout);
 
     authStateSubscription = stream.listen(_onAuthStateChange);
   }
@@ -23,7 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // Method to handle state changes
   void _onAuthStateChange(AuthState state) {
     // Handle the state change here, update UI or perform actions based on the state
-    // debugPrint("ProductBloc State Change: $state");
+    print("$state");
   }
 
   Future<void> onLogin(
@@ -39,11 +40,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     // Call the login method in the AuthRepository
-    AuthState getResponse = await _authRepository.login();
+    AuthState getResponse = await _authRepository.login(
+      username: username,
+      password: password,
+    );
 
     emit(
       state.copyWith(
           user: getResponse.user, token: getResponse.token, isLoading: false),
+    );
+  }
+
+  void onLogout(
+    AuthLogout event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      state.copyWith(user: User(name: "", roleId: 0), token: null),
     );
   }
 }

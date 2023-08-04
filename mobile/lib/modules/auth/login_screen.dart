@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sip/blocs/auth/auth_bloc.dart';
 import 'package:sip/constants.dart';
 import 'package:sip/layouts/master.dart';
+import 'package:sip/modules/home/screens/home_screen.dart';
+import 'package:sip/route.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -12,11 +18,15 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isDarkMode = false;
-  double deviceHeight(BuildContext context) =>
-      MediaQuery.of(context).size.height;
+  bool checkedValue = false;
+  String? token;
+  final _username = GlobalKey<FormState>();
+  final _password = GlobalKey<FormState>();
 
-  String? _name;
-  final _firstnamekey = GlobalKey<FormState>();
+  List textfieldsStrings = [
+    "", //firstName
+    "", //password
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,20 +80,87 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.only(top: size.height * 0.01),
                       ),
                       buildTextField(
-                        "Username",
-                        Icons.person_outlined,
-                        false,
-                        size,
-                        (valuename) {
+                        hintText: "Username",
+                        icon: Icons.person_outlined,
+                        password: false,
+                        size: size,
+                        validator: (valuename) {
                           if (valuename.length <= 2) {
+                            buildSnackError(
+                              'Invalid name',
+                              context,
+                              size,
+                            );
                             return '';
                           }
                           return null;
                         },
-                        _firstnamekey,
-                        0,
-                        isDarkMode,
-                      )
+                        key: _username,
+                        stringToEdit: 0,
+                        isDarkMode: isDarkMode,
+                      ),
+                      Form(
+                        child: buildTextField(
+                          hintText: "Passsword",
+                          icon: Icons.lock_outline,
+                          password: true,
+                          size: size,
+                          validator: (valuepassword) {
+                            if (valuepassword.length < 6) {
+                              buildSnackError(
+                                'Invalid password',
+                                context,
+                                size,
+                              );
+                              return '';
+                            }
+                            return null;
+                          },
+                          key: _password,
+                          stringToEdit: 1,
+                          isDarkMode: isDarkMode,
+                        ),
+                      ),
+                      SizedBox(
+                        height: top,
+                      ),
+                      BlocListener<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          // debugPrint(state.token);
+                          if (!state.isLoading) {
+                            setState(() {
+                              token = state.token;
+                            });
+
+                            debugPrint(state.token);
+
+                            Navigator.pushNamed(context, "main");
+                          }
+                        },
+                        child: FractionallySizedBox(
+                          widthFactor:
+                              1.0, // Set width to 100% of available width
+                          heightFactor: null,
+                          child: Container(
+                            height: 50,
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: ElevatedButton(
+                              child: const Text('Login'),
+                              onPressed: () async {
+                                AuthBloc authBloc =
+                                    BlocProvider.of<AuthBloc>(context);
+
+                                authBloc.add(
+                                  AuthLogin(
+                                    username: textfieldsStrings[0].toString(),
+                                    password: textfieldsStrings[1].toString(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -96,16 +173,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool pwVisible = false;
-  Widget buildTextField(
-    String hintText,
-    IconData icon,
-    bool password,
-    size,
-    FormFieldValidator validator,
-    Key key,
-    int stringToEdit,
-    bool isDarkMode,
-  ) {
+  Widget buildTextField({
+    required String hintText,
+    required IconData icon,
+    required bool password,
+    required size,
+    required FormFieldValidator validator,
+    required Key key,
+    required int stringToEdit,
+    required bool isDarkMode,
+  }) {
     return Padding(
       padding: EdgeInsets.only(top: size.height * 0.025),
       child: Container(
@@ -121,9 +198,9 @@ class _LoginScreenState extends State<LoginScreen> {
             style: TextStyle(
                 color: isDarkMode ? const Color(0xffADA4A5) : Colors.black),
             onChanged: (value) {
-              // setState(() {
-              //   textfieldsStrings[stringToEdit] = value;
-              // });
+              setState(() {
+                textfieldsStrings[stringToEdit] = value;
+              });
             },
             validator: validator,
             textInputAction: TextInputAction.next,
@@ -154,9 +231,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: InkWell(
                         onTap: () {
-                          // setState(() {
-                          //   pwVisible = !pwVisible;
-                          // });
+                          setState(() {
+                            pwVisible = !pwVisible;
+                          });
                         },
                         child: pwVisible
                             ? const Icon(
@@ -171,6 +248,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     )
                   : null,
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> buildSnackError(
+      String error, context, size) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 2),
+        backgroundColor: Colors.black,
+        content: SizedBox(
+          height: size.height * 0.02,
+          child: Center(
+            child: Text(error),
           ),
         ),
       ),
