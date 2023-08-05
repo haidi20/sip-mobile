@@ -4,7 +4,7 @@ import 'package:sip/blocs/products/products_bloc.dart';
 import 'package:sip/constants.dart';
 import 'package:sip/layouts/right_menu.dart';
 import 'package:sip/layouts/master.dart';
-import 'package:sip/modules/auth/login_screen.dart';
+import 'package:sip/modules/auth/screens/login_screen.dart';
 import 'package:sip/modules/home/screens/home_screen.dart';
 import 'package:sip/modules/profile/screens/profile_screen.dart';
 import 'package:sip/widgets/slide_right_route.dart';

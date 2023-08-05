@@ -4,7 +4,6 @@ class User {
   String? password;
   int roleId;
   String? roleName;
-  String? token;
   List<String>? permissions;
 
   User({
@@ -13,7 +12,6 @@ class User {
     this.password,
     required this.roleId,
     this.roleName,
-    this.token,
     this.permissions = const [],
   });
 
@@ -25,7 +23,6 @@ class User {
       password: json['password'] ?? '',
       roleId: json['role_id'] ?? 0,
       roleName: json['role_name'] ?? '',
-      token: json['token'] ?? '',
       permissions: List<String>.from(json['permissions'] ?? []),
     );
   }
@@ -38,7 +35,6 @@ class User {
       'password': password,
       'role_id': roleId,
       'role_name': roleName,
-      'token': token,
       'permissions': permissions,
     };
   }

@@ -24,7 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // Method to handle state changes
   void _onAuthStateChange(AuthState state) {
     // Handle the state change here, update UI or perform actions based on the state
-    print("$state");
+    // print("$state");
   }
 
   Future<void> onLogin(

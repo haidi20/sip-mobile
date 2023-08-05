@@ -5,7 +5,7 @@ import 'package:sip/blocs/auth/auth_bloc.dart';
 import 'package:sip/blocs/products/products_bloc.dart';
 import 'package:sip/custome_route.dart';
 import 'package:sip/layouts/not_found_screen.dart';
-import 'package:sip/modules/auth/login_screen.dart';
+import 'package:sip/modules/auth/screens/login_screen.dart';
 import 'package:sip/modules/main_menu/view/main_menu_screen.dart';
 import 'package:sip/route.dart';
 

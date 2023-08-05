@@ -1,13 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sip/blocs/auth/auth_bloc.dart';
 import 'package:sip/constants.dart';
 import 'package:sip/layouts/master.dart';
-import 'package:sip/modules/home/screens/home_screen.dart';
-import 'package:sip/route.dart';
+import 'package:sip/modules/auth/widgets/build_elevated_button.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -28,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     "", //password
   ];
 
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -127,14 +125,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       BlocListener<AuthBloc, AuthState>(
                         listener: (context, state) {
                           // debugPrint(state.token);
+                          setState(() {
+                            isLoading = state.isLoading;
+                          });
+
                           if (!state.isLoading) {
-                            setState(() {
-                              token = state.token;
-                            });
-
-                            debugPrint(state.token);
-
-                            Navigator.pushNamed(context, "main");
+                            if (state.token != null &&
+                                state.token!.isNotEmpty) {
+                              // debugPrint("token = ${state.token}");
+                              Navigator.pushNamed(context, "main");
+                            } else {
+                              showLoginWarning(context);
+                            }
                           }
                         },
                         child: FractionallySizedBox(
@@ -144,8 +146,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Container(
                             height: 50,
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            child: ElevatedButton(
-                              child: const Text('Login'),
+                            child: buildElevatedButton(
+                              isLoading: isLoading,
+                              child: isLoading
+                                  ? const Text('loading...')
+                                  : const Text('Login'),
                               onPressed: () async {
                                 AuthBloc authBloc =
                                     BlocProvider.of<AuthBloc>(context);
@@ -251,6 +256,26 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void showLoginWarning(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Perhatian'),
+          content: const Text('Maaf, anda tidak punya akses.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 

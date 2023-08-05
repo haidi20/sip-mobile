@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sip/modules/auth/login_screen.dart';
+import 'package:sip/modules/auth/screens/login_screen.dart';
 import 'package:sip/modules/main_menu/view/main_menu_screen.dart';
 
 class Routes {
