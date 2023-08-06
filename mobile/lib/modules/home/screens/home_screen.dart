@@ -61,39 +61,42 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(
           height: 10,
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: BlocBuilder<ProductBloc, ProductState>(
-            builder: (context, state) {
-              bool isLoading = state.loading;
-              List<Product>? products = state.data;
-              if (isLoading) {
-                return const Text("Loading...");
-              } else if (products.isNotEmpty) {
-                return Row(
-                  children: products.map(
-                    (Product product) {
-                      return GestureDetector(
-                        onTap: () {
-                          debugPrint('click ${product.name}');
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              right: 8.0), // Add desired right padding
-                          child: ProductCard(
-                            imgUrl: product.imgUrl ?? "",
-                            name: product.name ?? "",
-                            price: product.price ?? "",
+        Container(
+          color: Colors.white, // Set the background color to white
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: BlocBuilder<ProductBloc, ProductState>(
+              builder: (context, state) {
+                bool isLoading = state.loading;
+                List<Product>? products = state.data;
+                if (isLoading) {
+                  return const Text("Loading...");
+                } else if (products.isNotEmpty) {
+                  return Row(
+                    children: products.map(
+                      (Product product) {
+                        return GestureDetector(
+                          onTap: () {
+                            debugPrint('click ${product.name}');
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: paddingLeft), // Add desired right padding
+                            child: ProductCard(
+                              imgUrl: product.imgUrl ?? "",
+                              name: product.name ?? "",
+                              price: product.price ?? "",
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ).toList(),
-                );
-              } else {
-                return const Text("data kosong");
-              }
-            },
+                        );
+                      },
+                    ).toList(),
+                  );
+                } else {
+                  return const Text("data kosong");
+                }
+              },
+            ),
           ),
         ),
       ],
