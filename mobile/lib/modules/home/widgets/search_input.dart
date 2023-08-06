@@ -6,13 +6,17 @@ class SearchInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double paddingRight = size.width * paddingRightLeftGenerale;
+    double paddingLeft = size.width * paddingRightLeftGenerale;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(
-            left: paddingLeftGenerale,
-            right: paddingRightGenerale,
+          padding: EdgeInsets.only(
+            left: paddingLeft,
+            right: paddingRight,
           ),
           child: TextField(
             decoration: const InputDecoration(

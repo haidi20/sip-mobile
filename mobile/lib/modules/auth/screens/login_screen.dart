@@ -30,6 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    double paddingRight = size.width * paddingRightLeftGenerale;
+    double paddingLeft = size.width * paddingRightLeftGenerale;
     double top = size.height * 0.1;
 
     return Master(
@@ -39,10 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: paddingLeftGenerale,
-                    right: paddingRightGenerale,
+                  padding: EdgeInsets.only(
+                    left: paddingLeft,
+                    right: paddingRight,
                   ),
+                  // padding: const EdgeInsets.all(0),
                   child: Column(
                     children: [
                       Padding(
@@ -141,11 +144,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: FractionallySizedBox(
                           widthFactor:
-                              1.0, // Set width to 100% of available width
+                              1, // Set width to 100% of available width
                           heightFactor: null,
                           child: Container(
                             height: 50,
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding: const EdgeInsets.all(0),
                             child: buildElevatedButton(
                               isLoading: isLoading,
                               child: isLoading

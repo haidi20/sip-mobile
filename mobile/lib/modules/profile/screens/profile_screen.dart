@@ -11,15 +11,19 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    Size size = MediaQuery.of(context).size;
+    double paddingRight = size.width * paddingRightLeftGenerale;
+    double paddingLeft = size.width * paddingRightLeftGenerale;
+
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(
-            left: paddingLeftGenerale,
-            right: paddingRightGenerale,
+            left: paddingLeft,
+            right: paddingRight,
           ),
-          child: Text("profile"),
+          child: const Text("profile"),
         ),
       ],
     );

@@ -93,7 +93,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
             Builder(
               builder: (context) {
                 return IconButton(
-                  padding: const EdgeInsets.only(right: paddingRightGenerale),
+                  padding:
+                      const EdgeInsets.only(right: paddingRightLeftGenerale),
                   icon: const Icon(
                     Icons.menu,
                     color: Colors.black,

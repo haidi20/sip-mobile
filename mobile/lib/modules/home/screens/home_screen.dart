@@ -5,7 +5,7 @@ import 'package:sip/constants.dart';
 import 'package:sip/models/product.dart';
 import 'package:sip/modules/home/services/home_service.dart';
 import 'package:sip/modules/home/widgets/product_card.dart';
-import 'package:sip/modules/main_menu/widgets/search_input.dart';
+import 'package:sip/modules/home/widgets/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -31,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double paddingRight = size.width * paddingRightLeftGenerale;
+    double paddingLeft = size.width * paddingRightLeftGenerale;
     // var size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,9 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 15,
         ),
         Padding(
-          padding: const EdgeInsets.only(
-            left: paddingLeftGenerale,
-            right: paddingRightGenerale,
+          padding: EdgeInsets.only(
+            left: paddingLeft,
+            right: paddingRight,
           ),
           child: Center(
             child: Text(
