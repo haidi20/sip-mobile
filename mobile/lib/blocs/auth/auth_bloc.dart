@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sip/models/user.dart';
 import 'package:sip/repositories/auth_repository.dart';
 
@@ -36,7 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     String password = event.password;
 
     emit(
-      state.copyWith(user: User(name: "", roleId: 0), isLoading: true),
+      state.copyWith(isLoading: true),
     );
 
     // Call the login method in the AuthRepository
@@ -47,7 +48,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     emit(
       state.copyWith(
-          user: getResponse.user, token: getResponse.token, isLoading: false),
+        user: getResponse.user,
+        token: getResponse.token,
+        isLoading: false,
+        baseUrl: getResponse.baseUrl,
+      ),
     );
   }
 

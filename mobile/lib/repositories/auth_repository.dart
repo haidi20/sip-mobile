@@ -9,16 +9,16 @@ class AuthRepository {
     required String username,
     required String password,
   }) async {
-    User user = User(name: "", roleId: 0);
-    AuthState result = AuthState(user: user, isLoading: true);
+    const String baseUrlEnv =
+        String.fromEnvironment("BASE_URL", defaultValue: "");
+    String baseUrl = dotenv.env['BASE_URL'] ?? "";
+    String getBaseUrl = baseUrlEnv != "" ? baseUrlEnv : baseUrl;
 
-    final String baseUrl = dotenv.env['BASE_URL'] ?? '';
+    AuthState result = const AuthState();
 
     try {
       final dio = Dio();
-      final response = await dio.get("$baseUrl/v1/login");
-
-      await Future.delayed(const Duration(seconds: 3));
+      final response = await dio.get("$getBaseUrl/v1/login");
 
       if (response.statusCode == 200) {
         final responseData = response.data as Map<String, dynamic>;
@@ -29,6 +29,7 @@ class AuthRepository {
             user: getResponse.data.user!,
             token: getResponse.data.token,
             isLoading: false,
+            baseUrl: getBaseUrl,
           );
         } else {
           //

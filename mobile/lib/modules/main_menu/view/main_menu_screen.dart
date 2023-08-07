@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sip/blocs/products/products_bloc.dart';
-import 'package:sip/constants.dart';
+import 'package:sip/utils/constants.dart';
 import 'package:sip/layouts/right_menu.dart';
 import 'package:sip/layouts/master.dart';
 import 'package:sip/modules/auth/screens/login_screen.dart';
@@ -17,8 +17,6 @@ class MainMenuScreen extends StatefulWidget {
 }
 
 class _MainMenuScreenState extends State<MainMenuScreen> {
-  ProductBloc productBloc = ProductBloc();
-
   @override
   void initState() {
     // debugPrint("initial data");
@@ -57,7 +55,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   @override
   void dispose() {
-    productBloc.close();
     super.dispose();
   }
 

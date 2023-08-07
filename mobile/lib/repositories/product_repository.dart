@@ -6,11 +6,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class ProductRepository {
   Future<List<Product>?> fetchData() async {
     List<Product> products = [];
-    final String baseUrl = dotenv.env['BASE_URL'] ?? '';
+    const String baseUrlEnv =
+        String.fromEnvironment("BASE_URL", defaultValue: "");
+    String baseUrl = dotenv.env['BASE_URL'] ?? "";
+    String getBaseUrl = baseUrlEnv != "" ? baseUrlEnv : baseUrl;
 
     try {
       final dio = Dio();
-      final response = await dio.get("$baseUrl/v1/products");
+      final response = await dio.get("$getBaseUrl/v1/products");
       if (response.statusCode == 200) {
         final responseData = response.data as Map<String, dynamic>;
         final VmResponse getResponse = VmResponse.fromJson(responseData);

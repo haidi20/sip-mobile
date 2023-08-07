@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sip/constants.dart';
+import 'package:sip/utils/constants.dart';
 
 class SearchInput extends StatelessWidget {
   const SearchInput({super.key});

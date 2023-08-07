@@ -19,3 +19,8 @@ class AuthLogout extends AuthEvent {
   @override
   List<Object?> get props => <Object?>[];
 }
+
+class AuthIsLogin extends AuthEvent {
+  @override
+  List<Object?> get props => <Object?>[];
+}

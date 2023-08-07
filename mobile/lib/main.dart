@@ -12,7 +12,8 @@ import 'package:sip/route.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env.devel");
+  // await dotenv.load(fileName: ".env.devel");
+  await dotenv.load();
 
   // runApp(MainApp());
 

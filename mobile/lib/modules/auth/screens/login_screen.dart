@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sip/blocs/auth/auth_bloc.dart';
-import 'package:sip/constants.dart';
+import 'package:sip/utils/constants.dart';
 import 'package:sip/layouts/master.dart';
 import 'package:sip/modules/auth/widgets/build_elevated_button.dart';
 
@@ -25,7 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
     "", //password
   ];
 
-  bool isLoading = false;
+  String? _baseUrl;
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -127,9 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       BlocListener<AuthBloc, AuthState>(
                         listener: (context, state) {
-                          // debugPrint(state.token);
                           setState(() {
-                            isLoading = state.isLoading;
+                            _isLoading = state.isLoading;
+                            _baseUrl = state.baseUrl;
                           });
 
                           if (!state.isLoading) {
@@ -141,6 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               showLoginWarning(context);
                             }
                           }
+
+                          debugPrint(state.toString());
                         },
                         child: FractionallySizedBox(
                           widthFactor:
@@ -150,10 +154,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 50,
                             padding: const EdgeInsets.all(0),
                             child: buildElevatedButton(
-                              isLoading: isLoading,
-                              child: isLoading
+                              isLoading: _isLoading,
+                              child: _isLoading
                                   ? const Text('loading...')
-                                  : const Text('Login'),
+                                  : const Text("Login"),
                               onPressed: () async {
                                 AuthBloc authBloc =
                                     BlocProvider.of<AuthBloc>(context);

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sip/blocs/blocs.dart';
-import 'package:sip/constants.dart';
+import 'package:sip/utils/app_lifectyle_observer.dart';
+import 'package:sip/utils/constants.dart';
 import 'package:sip/models/product.dart';
 import 'package:sip/modules/home/services/home_service.dart';
 import 'package:sip/modules/home/widgets/product_card.dart';
@@ -14,18 +15,20 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   HomeService homeService = HomeService();
   // ProductBloc productBloc = ProductBloc();
 
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance!.addObserver(AppLifecycleObserver());
   }
 
   @override
   void dispose() {
-    // productBloc.close();
+    WidgetsBinding.instance!.removeObserver(AppLifecycleObserver());
     super.dispose();
   }
 
