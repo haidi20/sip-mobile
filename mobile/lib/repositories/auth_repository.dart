@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:sip/blocs/auth/auth_bloc.dart';
+import 'package:sip/cubits/auth/auth_cubit.dart';
 import 'package:sip/models/user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthRepository {
-  Future<AuthState> login({
+  Future<AuthCubitState> login({
     required String name,
     required String password,
   }) async {
@@ -14,7 +14,7 @@ class AuthRepository {
     String baseUrl = dotenv.env['BASE_URL'] ?? "";
     String getBaseUrl = baseUrlEnv != "" ? baseUrlEnv : baseUrl;
 
-    AuthState result = const AuthState();
+    AuthCubitState result = const AuthCubitState();
 
     try {
       final dio = Dio();
@@ -41,7 +41,7 @@ class AuthRepository {
             roleId: getResponse.data.user!.roleId,
           );
 
-          result = AuthState(
+          result = AuthCubitState(
             user: user,
             token: getResponse.data.token,
             isLoading: false,

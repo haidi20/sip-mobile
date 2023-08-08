@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sip/blocs/auth/auth_bloc.dart';
+import 'package:sip/cubits/auth/auth_cubit.dart';
 import 'package:sip/models/user.dart';
 import 'package:sip/utils/app_lifectyle_observer.dart';
 
@@ -23,7 +24,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
   Widget build(BuildContext context) {
     // FocusScope.of(context).requestFocus(focusNode);
 
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<AuthCubit, AuthCubitState>(
       builder: (context, state) {
         return KeyboardListener(
           focusNode: focusNode,
@@ -43,9 +44,9 @@ class _DefaultScreenState extends State<DefaultScreen> {
               );
 
               if (state.token == null && !state.isLogout) {
-                AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
+                AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
 
-                authBloc.add(AuthLogout());
+                authCubit.onLogout();
 
                 Navigator.pushNamed(context, "login");
               }

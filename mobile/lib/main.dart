@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:sip/blocs/auth/auth_bloc.dart';
 import 'package:sip/blocs/products/products_bloc.dart';
+import 'package:sip/cubits/auth/auth_cubit.dart';
 import 'package:sip/custome_route.dart';
 import 'package:sip/layouts/not_found_screen.dart';
 import 'package:sip/modules/auth/screens/login_screen.dart';
@@ -17,17 +17,19 @@ void main() async {
 
   // runApp(MainApp());
 
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider<ProductBloc>(
-        create: (BuildContext context) => ProductBloc(),
-      ),
-      BlocProvider<AuthBloc>(
-        create: (BuildContext context) => AuthBloc(),
-      ),
-    ],
-    child: MainApp(),
-  ));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<ProductBloc>(
+          create: (BuildContext context) => ProductBloc(),
+        ),
+        BlocProvider<AuthCubit>(
+          create: (BuildContext context) => AuthCubit(),
+        ),
+      ],
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

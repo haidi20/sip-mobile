@@ -40,20 +40,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     // Call the login method in the AuthRepository
-    AuthState getResponse = await _authRepository.login(
-      name: name,
-      password: password,
-    );
+    // AuthState getResponse = await _authRepository.login(
+    //   name: name,
+    //   password: password,
+    // );
 
-    emit(
-      state.copyWith(
-        user: getResponse.user,
-        token: getResponse.token,
-        isLoading: false,
-        isLogout: false,
-        baseUrl: getResponse.baseUrl,
-      ),
-    );
+    // emit(
+    //   state.copyWith(
+    //     user: getResponse.user,
+    //     token: getResponse.token,
+    //     isLoading: false,
+    //     isLogout: false,
+    //     baseUrl: getResponse.baseUrl,
+    //   ),
+    // );
   }
 
   void onLogout(

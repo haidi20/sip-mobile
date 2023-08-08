@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sip/blocs/auth/auth_bloc.dart';
+import 'package:sip/cubits/auth/auth_cubit.dart';
 
 class RightMenu extends StatelessWidget {
   RightMenu({super.key});
@@ -55,16 +56,14 @@ class RightMenu extends StatelessWidget {
             (menu) => ListTile(
               title: Text(menu['name']!),
               onTap: () {
-                AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
+                AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
                 // Handle the click on 'Etalase Pangan'
                 Navigator.pop(context); // Close the drawer
 
                 if (menu['nameRoute'] != null) {
                   if (menu['nameRoute'] == 'login') {
                     // debugPrint("event auth logout");
-                    authBloc.add(
-                      AuthLogout(),
-                    );
+                    authCubit.onLogout();
                   }
 
                   Navigator.pushNamed(context, menu['nameRoute']!);

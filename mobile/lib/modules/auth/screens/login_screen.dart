@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sip/blocs/auth/auth_bloc.dart';
+import 'package:sip/cubits/auth/auth_cubit.dart';
+import 'package:sip/models/user.dart';
 import 'package:sip/utils/constants.dart';
 import 'package:sip/layouts/defaullt_screen.dart';
 import 'package:sip/modules/auth/widgets/build_elevated_button.dart';
@@ -124,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: top,
                       ),
-                      BlocConsumer<AuthBloc, AuthState>(
+                      BlocConsumer<AuthCubit, AuthCubitState>(
                         listener: (context, state) {
                           if (!state.isLoading) {
                             if (state.token != null &&
@@ -153,17 +154,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ? const Text('loading...')
                                     : const Text("Login"),
                                 onPressed: () async {
-                                  AuthBloc authBloc =
-                                      BlocProvider.of<AuthBloc>(context);
+                                  AuthCubit authCubit =
+                                      BlocProvider.of<AuthCubit>(context);
 
-                                  authBloc.add(
-                                    AuthLogin(
-                                      name:
-                                          textfieldsStrings["name"].toString(),
-                                      password: textfieldsStrings["password"]
-                                          .toString(),
-                                    ),
+                                  // authBloc.add(
+                                  //   AuthLogin(
+                                  //     name:
+                                  //         textfieldsStrings["name"].toString(),
+                                  //     password: textfieldsStrings["password"]
+                                  //         .toString(),
+                                  //   ),
+                                  // );
+
+                                  User user = User(
+                                    name: textfieldsStrings["name"].toString(),
+                                    password: textfieldsStrings["password"]
+                                        .toString(),
                                   );
+
+                                  authCubit.onLogin(user);
                                 },
                               ),
                             ),
