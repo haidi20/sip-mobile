@@ -2,28 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sip/blocs/auth/auth_bloc.dart';
+import 'package:sip/models/user.dart';
 import 'package:sip/utils/app_lifectyle_observer.dart';
 
-class Master extends StatelessWidget {
-  Master({Key? key, required this.child}) : super(key: key);
-
+class DefaultScreen extends StatefulWidget {
   final Widget child;
+
+  const DefaultScreen({Key? key, required this.child}) : super(key: key);
+
+  @override
+  _DefaultScreenState createState() => _DefaultScreenState();
+}
+
+class _DefaultScreenState extends State<DefaultScreen> {
   final AppLifecycleObserver _appLifecycleObserver = AppLifecycleObserver();
   final FocusNode focusNode = FocusNode();
 
+  String? _token;
   @override
   Widget build(BuildContext context) {
     // FocusScope.of(context).requestFocus(focusNode);
 
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        //
-      },
+    return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return KeyboardListener(
           focusNode: focusNode,
           onKeyEvent: (KeyEvent event) {
             if (event is KeyDownEvent) {
+              // debugPrint(state.token);
               _appLifecycleObserver.trackUserActivity(
                 isLogin: state.token != null ? true : false,
               );
@@ -35,15 +41,23 @@ class Master extends StatelessWidget {
               _appLifecycleObserver.trackUserActivity(
                 isLogin: state.token != null ? true : false,
               );
+
+              if (state.token == null && !state.isLogout) {
+                AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
+
+                authBloc.add(AuthLogout());
+
+                Navigator.pushNamed(context, "login");
+              }
             },
             child: LayoutBuilder(
               builder: (context, constraints) {
                 if (constraints.maxWidth < 600) {
                   // Mobile layout
-                  return child;
+                  return widget.child;
                 } else {
                   // Larger screen layout
-                  return LargeScreenLayout(child: child);
+                  return LargeScreenLayout(child: widget.child);
                 }
               },
             ),

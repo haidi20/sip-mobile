@@ -1,25 +1,25 @@
 class User {
-  BigInt? id;
-  String name;
+  int? id;
+  String? name;
   String? password;
-  int roleId;
+  int? roleId;
   String? roleName;
   List<String>? permissions;
 
   User({
-    this.id,
-    required this.name,
-    this.password,
-    required this.roleId,
-    this.roleName,
+    this.id = 0,
+    this.name = "",
+    this.password = "",
+    this.roleId = 0,
+    this.roleName = "",
     this.permissions = const [],
   });
 
   // Factory method to create a User object from JSON data
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: BigInt.from(json['id'] ?? 0),
-      name: json['name'] ?? '',
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'no name',
       password: json['password'] ?? '',
       roleId: json['role_id'] ?? 0,
       roleName: json['role_name'] ?? '',
@@ -33,7 +33,7 @@ class User {
       'id': id.toString(),
       'name': name,
       'password': password,
-      'role_id': roleId,
+      'role_id': roleId.toString(),
       'role_name': roleName,
       'permissions': permissions,
     };

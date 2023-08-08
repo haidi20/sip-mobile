@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sip/blocs/auth/auth_bloc.dart';
-import 'package:sip/blocs/blocs.dart';
-
 class AppLifecycleObserver extends WidgetsBindingObserver {
   String? _token;
   static Timer? _timer;

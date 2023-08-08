@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sip/blocs/auth/auth_bloc.dart';
 import 'package:sip/utils/constants.dart';
-import 'package:sip/layouts/master.dart';
+import 'package:sip/layouts/defaullt_screen.dart';
 import 'package:sip/modules/auth/widgets/build_elevated_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,16 +17,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isDarkMode = false;
   bool checkedValue = false;
   String? token;
-  final _username = GlobalKey<FormState>();
+  final _name = GlobalKey<FormState>();
   final _password = GlobalKey<FormState>();
 
-  List textfieldsStrings = [
-    "", //firstName
-    "", //password
-  ];
-
-  String? _baseUrl;
-  bool _isLoading = false;
+  Map<String, dynamic> textfieldsStrings = {
+    "name": "",
+    "password": "",
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double paddingLeft = size.width * paddingRightLeftGenerale;
     double top = size.height * 0.1;
 
-    return Master(
+    return DefaultScreen(
       child: Scaffold(
         body: SafeArea(
           child: Stack(
@@ -83,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.only(top: size.height * 0.01),
                       ),
                       buildTextField(
-                        hintText: "Username",
+                        hintText: "name",
                         icon: Icons.person_outlined,
                         password: false,
                         size: size,
@@ -98,8 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                           return null;
                         },
-                        key: _username,
-                        stringToEdit: 0,
+                        key: _name,
+                        stringToEdit: "name",
                         isDarkMode: isDarkMode,
                       ),
                       Form(
@@ -120,58 +117,58 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           },
                           key: _password,
-                          stringToEdit: 1,
+                          stringToEdit: "password",
                           isDarkMode: isDarkMode,
                         ),
                       ),
                       SizedBox(
                         height: top,
                       ),
-                      BlocListener<AuthBloc, AuthState>(
+                      BlocConsumer<AuthBloc, AuthState>(
                         listener: (context, state) {
-                          setState(() {
-                            _isLoading = state.isLoading;
-                            _baseUrl = state.baseUrl;
-                          });
-
                           if (!state.isLoading) {
                             if (state.token != null &&
                                 state.token!.isNotEmpty) {
                               // debugPrint("token = ${state.token}");
                               Navigator.pushNamed(context, "main");
                             } else {
-                              showLoginWarning(context);
+                              if (!state.isLogout) {
+                                // debugPrint("logout");
+                                showLoginWarning(context);
+                              }
                             }
                           }
-
-                          debugPrint(state.toString());
                         },
-                        child: FractionallySizedBox(
-                          widthFactor:
-                              1, // Set width to 100% of available width
-                          heightFactor: null,
-                          child: Container(
-                            height: 50,
-                            padding: const EdgeInsets.all(0),
-                            child: buildElevatedButton(
-                              isLoading: _isLoading,
-                              child: _isLoading
-                                  ? const Text('loading...')
-                                  : const Text("Login"),
-                              onPressed: () async {
-                                AuthBloc authBloc =
-                                    BlocProvider.of<AuthBloc>(context);
+                        builder: (context, state) {
+                          return FractionallySizedBox(
+                            widthFactor:
+                                1, // Set width to 100% of available width
+                            heightFactor: null,
+                            child: Container(
+                              height: 50,
+                              padding: const EdgeInsets.all(0),
+                              child: buildElevatedButton(
+                                isLoading: state.isLoading,
+                                child: state.isLoading
+                                    ? const Text('loading...')
+                                    : const Text("Login"),
+                                onPressed: () async {
+                                  AuthBloc authBloc =
+                                      BlocProvider.of<AuthBloc>(context);
 
-                                authBloc.add(
-                                  AuthLogin(
-                                    username: textfieldsStrings[0].toString(),
-                                    password: textfieldsStrings[1].toString(),
-                                  ),
-                                );
-                              },
+                                  authBloc.add(
+                                    AuthLogin(
+                                      name:
+                                          textfieldsStrings["name"].toString(),
+                                      password: textfieldsStrings["password"]
+                                          .toString(),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -192,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
     required size,
     required FormFieldValidator validator,
     required Key key,
-    required int stringToEdit,
+    required String stringToEdit,
     required bool isDarkMode,
   }) {
     return Padding(

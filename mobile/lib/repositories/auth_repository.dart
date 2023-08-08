@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthRepository {
   Future<AuthState> login({
-    required String username,
+    required String name,
     required String password,
   }) async {
     const String baseUrlEnv =
@@ -18,15 +18,31 @@ class AuthRepository {
 
     try {
       final dio = Dio();
-      final response = await dio.get("$getBaseUrl/v1/login");
+      final response = await dio.post(
+        "$getBaseUrl/v1/login",
+        data: {
+          'name': name,
+          'password': password,
+        },
+      );
 
       if (response.statusCode == 200) {
+        // await Future.delayed(
+        //   const Duration(seconds: 2),
+        // );
+
         final responseData = response.data as Map<String, dynamic>;
         final VmResponse getResponse = VmResponse.fromJson(responseData);
 
         if (getResponse.status == EStatus.success) {
+          User user = User(
+            id: getResponse.data.user!.id,
+            name: getResponse.data.user!.name,
+            roleId: getResponse.data.user!.roleId,
+          );
+
           result = AuthState(
-            user: getResponse.data.user!,
+            user: user,
             token: getResponse.data.token,
             isLoading: false,
             baseUrl: getBaseUrl,
@@ -35,7 +51,7 @@ class AuthRepository {
           //
         }
 
-        // debugPrint(getResponse.data.toString());
+        // debugPrint(getResponse.data.user!.toJson().toString());
       } else {
         // Handle other status codes (e.g., 404, 500, etc.)
         debugPrint("Error: ${response.statusCode}");

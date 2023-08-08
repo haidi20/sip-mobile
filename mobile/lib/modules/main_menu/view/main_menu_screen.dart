@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sip/blocs/products/products_bloc.dart';
 import 'package:sip/utils/constants.dart';
 import 'package:sip/layouts/right_menu.dart';
-import 'package:sip/layouts/master.dart';
+import 'package:sip/layouts/defaullt_screen.dart';
 import 'package:sip/modules/auth/screens/login_screen.dart';
 import 'package:sip/modules/home/screens/home_screen.dart';
 import 'package:sip/modules/profile/screens/profile_screen.dart';
@@ -80,7 +80,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       ),
     ];
 
-    return Master(
+    return DefaultScreen(
       child: Scaffold(
         appBar: AppBar(
           elevation: 0, // Set elevation to 0 to remove shadow

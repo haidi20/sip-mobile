@@ -1,11 +1,12 @@
 exports.login = (req, res) => {
+  const { name } = req.body;
 
   const data = {
     user: {
       id: 1,
-      username: "haid",
-      roleId: 1,
-      roleName: "super admin",
+      name: name,
+      role_id: 1,
+      role_name: "super admin",
     },
     token: "k23j4lk4",
     // token: null,

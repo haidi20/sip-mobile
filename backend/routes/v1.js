@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   res.json({ message: 'Welcome to API version 1' });
 });
 
-router.get('/login', AuthController.login);
+router.post('/login', AuthController.login);
 
 router.get('/products',
   (req, res) => ProductController.fetchData(req, res));

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sip/models/user.dart';
 import 'package:sip/repositories/auth_repository.dart';
 
@@ -33,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     // Get the input from the form
-    String username = event.username;
+    String name = event.name;
     String password = event.password;
 
     emit(
@@ -42,7 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     // Call the login method in the AuthRepository
     AuthState getResponse = await _authRepository.login(
-      username: username,
+      name: name,
       password: password,
     );
 
@@ -51,6 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         user: getResponse.user,
         token: getResponse.token,
         isLoading: false,
+        isLogout: false,
         baseUrl: getResponse.baseUrl,
       ),
     );
@@ -61,7 +61,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(
-      state.copyWith(user: User(name: "", roleId: 0), token: null),
+      state.copyWith(
+        user: User(),
+        token: "",
+        baseUrl: null,
+        isLogout: true,
+      ),
     );
   }
 }
