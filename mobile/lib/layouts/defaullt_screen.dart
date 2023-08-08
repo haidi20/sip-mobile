@@ -20,7 +20,9 @@ class _DefaultScreenState extends State<DefaultScreen> {
   String? _token;
 
   void onTrackUser({required AuthCubitState state}) {
-    _appLifecycleObserver.trackUserActivity(context: context);
+    _appLifecycleObserver.trackUserActivity(
+      context: context,
+    );
 
     if (state.token == null && !state.isLogout) {
       //

@@ -27,8 +27,15 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
     AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
 
     debugPrint(authCubit.state.token.toString());
-    if (authCubit.state.token != "") {
+    if (authCubit.state.token == null || authCubit.state.token == "") {
+      AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
+
+      authCubit.onLogout();
+
+      Navigator.pushNamed(context, "login");
+    } else {
       debugPrint("start new timer");
+
       startNewTimer(
         isLogin: true,
         context: context,
@@ -39,7 +46,7 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
   void startNewTimer({required BuildContext context, required bool isLogin}) {
     stopTimer();
     if (isLogin) {
-      _timer = Timer.periodic(const Duration(seconds: _autoLogoutTimer), (_) {
+      _timer = Timer.periodic(const Duration(minutes: _autoLogoutTimer), (_) {
         timedOut(
           isLogin: isLogin,
           context: context,

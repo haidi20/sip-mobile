@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sip/cubits/auth/auth_cubit.dart';
 import 'package:sip/models/user.dart';
+import 'package:sip/utils/app_lifectyle_observer.dart';
 import 'package:sip/utils/constants.dart';
 import 'package:sip/layouts/defaullt_screen.dart';
 import 'package:sip/modules/auth/widgets/build_elevated_button.dart';
@@ -20,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? token;
   final _name = GlobalKey<FormState>();
   final _password = GlobalKey<FormState>();
+  final AppLifecycleObserver _appLifecycleObserver = AppLifecycleObserver();
 
   Map<String, dynamic> textfieldsStrings = {
     "name": "",
@@ -131,6 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (state.token != null &&
                                 state.token!.isNotEmpty) {
                               // debugPrint("token = ${state.token}");
+                              _appLifecycleObserver.trackUserActivity(
+                                context: context,
+                              );
                               Navigator.pushNamed(context, "main");
                             } else {
                               if (!state.isLogout) {
