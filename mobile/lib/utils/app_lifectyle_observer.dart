@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sip/cubits/auth/auth_cubit.dart';
+
 class AppLifecycleObserver extends WidgetsBindingObserver {
-  String? _token;
   static Timer? _timer;
+  static const _autoLogoutTimer = 5;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -19,11 +22,48 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
   }
 
   /// Track user activity and reset timer
-  void trackUserActivity({required bool isLogin}) async {
+  void trackUserActivity({required BuildContext context}) async {
     // debugPrint('User Activity Detected, user login = ${isLogin.toString()}');
-    // if (_token != null && _timer != null) {
-    //   debugPrint("start new timer");
-    //   // startNewTimer();
-    // }
+    AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
+
+    debugPrint(authCubit.state.token.toString());
+    if (authCubit.state.token != "") {
+      debugPrint("start new timer");
+      startNewTimer(
+        isLogin: true,
+        context: context,
+      );
+    }
+  }
+
+  void startNewTimer({required BuildContext context, required bool isLogin}) {
+    stopTimer();
+    if (isLogin) {
+      _timer = Timer.periodic(const Duration(seconds: _autoLogoutTimer), (_) {
+        timedOut(
+          isLogin: isLogin,
+          context: context,
+        );
+      });
+    }
+  }
+
+  void stopTimer() {
+    if (_timer != null || (_timer?.isActive != null && _timer!.isActive)) {
+      _timer?.cancel();
+    }
+  }
+
+  Future<void> timedOut(
+      {required BuildContext context, required bool isLogin}) async {
+    stopTimer();
+    if (isLogin) {
+      // _authService.logoutUser(reason: 'auto-logout');
+      AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
+
+      authCubit.onLogout();
+
+      Navigator.pushNamed(context, "login");
+    }
   }
 }

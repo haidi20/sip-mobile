@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sip/blocs/auth/auth_bloc.dart';
 import 'package:sip/cubits/auth/auth_cubit.dart';
-import 'package:sip/models/user.dart';
 import 'package:sip/utils/app_lifectyle_observer.dart';
 
 class DefaultScreen extends StatefulWidget {
@@ -20,6 +18,15 @@ class _DefaultScreenState extends State<DefaultScreen> {
   final FocusNode focusNode = FocusNode();
 
   String? _token;
+
+  void onTrackUser({required AuthCubitState state}) {
+    _appLifecycleObserver.trackUserActivity(context: context);
+
+    if (state.token == null && !state.isLogout) {
+      //
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // FocusScope.of(context).requestFocus(focusNode);
@@ -31,26 +38,16 @@ class _DefaultScreenState extends State<DefaultScreen> {
           onKeyEvent: (KeyEvent event) {
             if (event is KeyDownEvent) {
               // debugPrint(state.token);
-              _appLifecycleObserver.trackUserActivity(
-                isLogin: state.token != null ? true : false,
+              onTrackUser(
+                state: state,
               );
             }
           },
           child: GestureDetector(
             behavior: HitTestBehavior.deferToChild,
-            onTap: () {
-              _appLifecycleObserver.trackUserActivity(
-                isLogin: state.token != null ? true : false,
-              );
-
-              if (state.token == null && !state.isLogout) {
-                AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
-
-                authCubit.onLogout();
-
-                Navigator.pushNamed(context, "login");
-              }
-            },
+            onTap: () => onTrackUser(
+              state: state,
+            ),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 if (constraints.maxWidth < 600) {
