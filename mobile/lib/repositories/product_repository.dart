@@ -15,9 +15,9 @@ class ProductRepository {
       final dio = Dio();
       final response = await dio.get("$getBaseUrl/v1/products");
 
-      await Future.delayed(
-        const Duration(seconds: 5),
-      );
+      // await Future.delayed(
+      //   const Duration(seconds: 5),
+      // );
 
       if (response.statusCode == 200) {
         final responseData = response.data as Map<String, dynamic>;

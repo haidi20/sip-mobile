@@ -29,51 +29,50 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(5),
-      child: Container(
-        height: 120,
-        width: 150,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(widget.imgUrl),
-          ),
+    return SizedBox(
+      width: 200,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.circular(10), // Adjust the border radius as needed
+          side: const BorderSide(color: Colors.black, width: 0.5),
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(
-              begin: Alignment.bottomRight,
-              stops: const [0.3, 0.9],
-              colors: [
-                Colors.black.withOpacity(.8),
-                Colors.black.withOpacity(.2)
-              ],
-            ),
-          ),
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Text(
-                    widget.name,
-                    style: const TextStyle(color: Colors.white, fontSize: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    widget.imgUrl, // Ganti dengan URL gambar Anda
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Text(
-                    widget.price, // Replace this with the actual price value
-                    style: const TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                ),
-              ],
+              ),
+              width: MediaQuery.of(context).size.width,
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+                left: 15,
+                right: 15,
+                bottom: 10,
+              ),
+              child: Text(
+                widget.name,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );

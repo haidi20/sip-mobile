@@ -117,6 +117,16 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
             ],
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        resizeToAvoidBottomInset: false,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Handle button press
+            debugPrint('Floating Action Button pressed');
+          },
+          backgroundColor: Colors.blue,
+          child: const Icon(Icons.add),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           items: items,
           currentIndex: _selectedNavbar,

@@ -24,12 +24,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addObserver(AppLifecycleObserver());
+    WidgetsBinding.instance.addObserver(AppLifecycleObserver());
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(AppLifecycleObserver());
+    WidgetsBinding.instance.removeObserver(AppLifecycleObserver());
     super.dispose();
   }
 
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const SearchInput(),
+        SearchInput(),
         const SizedBox(
           height: 15,
         ),
