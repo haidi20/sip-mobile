@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sip/utils/constants.dart';
 
 class ProductCard extends StatefulWidget {
   final String imgUrl;
@@ -30,9 +29,6 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double paddingLeft = size.width * paddingRightLeftGenerale;
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(

@@ -26,15 +26,17 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
     // debugPrint('User Activity Detected, user login = ${isLogin.toString()}');
     AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
 
-    debugPrint(authCubit.state.token.toString());
+    // debugPrint("token = ${authCubit.state.token.toString()}");
+    // debugPrint("${authCubit.state.isLogout}");
     if (authCubit.state.token == null || authCubit.state.token == "") {
-      AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
+      // if (authCubit.state.isLogout == false) {
+      //   // debugPrint("login");
+      //   Navigator.pushNamed(context, "login");
+      // }
 
-      authCubit.onLogout();
-
-      Navigator.pushNamed(context, "login");
+      // authCubit.onLogout();
     } else {
-      debugPrint("start new timer");
+      // debugPrint("start new timer");
 
       startNewTimer(
         isLogin: true,

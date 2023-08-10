@@ -14,6 +14,11 @@ class ProductRepository {
     try {
       final dio = Dio();
       final response = await dio.get("$getBaseUrl/v1/products");
+
+      await Future.delayed(
+        const Duration(seconds: 5),
+      );
+
       if (response.statusCode == 200) {
         final responseData = response.data as Map<String, dynamic>;
         final VmResponse getResponse = VmResponse.fromJson(responseData);
@@ -34,14 +39,14 @@ class ProductRepository {
 }
 
 class VmResponse {
-  bool success;
+  String status;
   List<Product> data;
 
-  VmResponse({required this.data, required this.success});
+  VmResponse({required this.data, required this.status});
 
   factory VmResponse.fromJson(Map<String, dynamic> json) {
     return VmResponse(
-      success: json['success'],
+      status: json['status'],
       data: (json['data'] as List<dynamic>)
           .map((item) => Product.fromJson(item))
           .toList(),

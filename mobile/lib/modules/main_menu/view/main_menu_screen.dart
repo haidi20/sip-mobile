@@ -83,6 +83,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     return DefaultScreen(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0, // Set elevation to 0 to remove shadow
           backgroundColor:
               Colors.transparent, // Set transparent background color

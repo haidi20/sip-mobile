@@ -7,6 +7,7 @@ import 'package:sip/models/product.dart';
 import 'package:sip/modules/home/services/home_service.dart';
 import 'package:sip/modules/home/widgets/product_card.dart';
 import 'package:sip/modules/home/widgets/search_input.dart';
+import 'package:sip/widgets/shimmer_loading.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -73,7 +74,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 bool isLoading = state.loading;
                 List<Product>? products = state.data;
                 if (isLoading) {
-                  return const Text("Loading...");
+                  return Row(
+                    children: List.generate(
+                      3, // Display up to 4 loading widgets
+                      (index) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            left: paddingLeft,
+                          ),
+                          child: const ShimmerLoading(),
+                        );
+                      },
+                    ),
+                  );
                 } else if (products.isNotEmpty) {
                   return Row(
                     children: products.map(

@@ -17,8 +17,6 @@ class _DefaultScreenState extends State<DefaultScreen> {
   final AppLifecycleObserver _appLifecycleObserver = AppLifecycleObserver();
   final FocusNode focusNode = FocusNode();
 
-  String? _token;
-
   void onTrackUser({required AuthCubitState state}) {
     _appLifecycleObserver.trackUserActivity(
       context: context,
