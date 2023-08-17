@@ -29,10 +29,10 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
     // debugPrint("token = ${authCubit.state.token.toString()}");
     // debugPrint("${authCubit.state.isLogout}");
     if (authCubit.state.token == null || authCubit.state.token == "") {
-      // if (authCubit.state.isLogout == false) {
-      //   // debugPrint("login");
-      //   Navigator.pushNamed(context, "login");
-      // }
+      if (authCubit.state.isLogout == false) {
+        // debugPrint("login");
+        // Navigator.pushNamed(context, "login");
+      }
 
       // authCubit.onLogout();
     } else {

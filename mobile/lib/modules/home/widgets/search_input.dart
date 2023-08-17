@@ -14,22 +14,6 @@ class _SearchInputState extends State<SearchInput> {
   @override
   void initState() {
     super.initState();
-
-    textFieldFocusNode.addListener(
-      () {
-        if (textFieldFocusNode.hasFocus) {
-          // TextField is now active
-          debugPrint('TextField is active');
-          // You can perform any actions or display UI changes here
-
-          // showDialogSearch();
-        } else {
-          // TextField lost focus
-          debugPrint('TextField lost focus');
-          // You can perform cleanup or reset UI changes here
-        }
-      },
-    );
   }
 
   @override
@@ -44,77 +28,74 @@ class _SearchInputState extends State<SearchInput> {
     double paddingRight = size.width * paddingRightLeftGenerale;
     double paddingLeft = size.width * paddingRightLeftGenerale;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(
-            left: paddingLeft,
-            right: paddingRight,
+    return Container(
+      margin: EdgeInsets.only(
+        left: paddingLeft,
+        right: paddingRight,
+      ),
+      child: GestureDetector(
+        onTap: () => showDialogSearch(
+          context: context,
+          paddingLeft: paddingLeft,
+          paddingRight: paddingRight,
+        ),
+        child: Container(
+          height: 40,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(5.0),
           ),
-          child: TextField(
-            focusNode: textFieldFocusNode,
-            readOnly: true,
-            decoration: const InputDecoration(
-              labelText: "cari...",
-              prefixIcon: Icon(Icons.search),
-              contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior
-                  .never, // Keep the labelText always visible
-            ),
-            onChanged: (text) {
-              // debugPrint(text);
-            },
-            onSubmitted: (value) {
-              // Called when the user presses the return key
-              debugPrint('Submitted: $value');
-              // You can perform any actions or validations here
-            },
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.search),
+              SizedBox(width: 8.0),
+              Text("Cari...")
+            ],
           ),
         ),
-        // ElevatedButton(
-        //   onPressed: () {
-        //     // This function will be executed when the button is pressed
-        //     showDialogSearch();
-        //   },
-        //   child: const Text('show modal'), // Text displayed on the button
-        // ),
-      ],
+      ),
     );
   }
 
-  void showDialogSearch() {
+  void showDialogSearch({
+    required BuildContext context,
+    required double paddingRight,
+    required double paddingLeft,
+  }) {
     showDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-            // Empty onTap handler to prevent interactions with the background
-          },
-          child: AlertDialog(
-            content: const Text("Show modal"),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false), // passing false
-                child: const Text('Tutup'),
-              ),
-            ],
+      builder: (_) => Container(
+        margin: EdgeInsets.only(
+          left: paddingLeft,
+          right: paddingRight,
+        ),
+        child: AlertDialog(
+          insetPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          content: Builder(
+            builder: (context) {
+              // Get available height and width of the build area of this widget. Make a choice depending on the size.
+              double height = MediaQuery.of(context).size.height;
+              double width = MediaQuery.of(context).size.width;
+
+              // Ensure dimensions do not go negative
+              double desiredHeight = height > 400 ? height - 400 : height;
+              double desiredWidth = width > 400 ? width - 400 : width;
+
+              return SizedBox(
+                height: desiredHeight,
+                width: desiredWidth,
+                child: const Text("content"),
+              );
+            },
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
